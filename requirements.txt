@@ -1,0 +1,15 @@
+# Core dependencies
+deepgram-sdk>=3.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+pyaudio
+sounddevice
+openai
+
+# Audio processing
+sounddevice>=0.4.6
+numpy>=1.24.0
+pydub>=0.25.1
+fuzzywuzzy 
+levenshtein
+mysql-connector-python>=8.0.0

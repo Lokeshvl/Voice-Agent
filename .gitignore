@@ -1,0 +1,4 @@
+.env
+storage/audio_output
+storage/logs
+.idea

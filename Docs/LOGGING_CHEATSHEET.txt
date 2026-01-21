@@ -1,0 +1,112 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                      VOICE AGENT - LOGGING QUICK REFERENCE               ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+📂 LOG FILES
+────────────────────────────────────────────────────────────────────────────
+  Per Session (individual conversations):
+    • storage/logs/session_YYYY-MM-DD_HH-MM-SS.log    [conversation transcript]
+    • storage/logs/session_YYYY-MM-DD_HH-MM-SS.json   [structured JSON data]
+
+  Unified (all sessions):
+    • storage/logs/runtime.log                         [all runtime events]
+    • storage/logs/sessions.log                        [all conversations]
+
+📺 REAL-TIME MONITORING
+────────────────────────────────────────────────────────────────────────────
+  # Monitor runtime events (initialization, errors, processing)
+  $ tail -f storage/logs/runtime.log
+
+  # Monitor conversation activity
+  $ tail -f storage/logs/sessions.log
+
+  # Monitor both simultaneously
+  $ tail -f storage/logs/runtime.log storage/logs/sessions.log
+
+  # Monitor specific session
+  $ tail -f storage/logs/session_2025-11-25_12-30-45.log
+
+🔍 LOG FILTERING
+────────────────────────────────────────────────────────────────────────────
+  # Show only errors
+  $ grep ERROR storage/logs/runtime.log
+
+  # Show only booking updates
+  $ grep "BOOKING UPDATE" storage/logs/sessions.log
+
+  # Show conversation turns
+  $ grep -E "(USER:|ASSISTANT:)" storage/logs/sessions.log
+
+  # Find specific session
+  $ grep "2025-11-25_12-30-45" storage/logs/runtime.log
+
+📊 LOG ANALYSIS
+────────────────────────────────────────────────────────────────────────────
+  # Count total sessions
+  $ grep "SESSION STARTED" storage/logs/sessions.log | wc -l
+
+  # Count errors
+  $ grep ERROR storage/logs/runtime.log | wc -l
+
+  # Show session durations
+  $ grep "Session ended - Duration" storage/logs/runtime.log
+
+🧹 LOG MANAGEMENT
+────────────────────────────────────────────────────────────────────────────
+  # Remove session logs older than 7 days
+  $ find storage/logs/session_*.log -mtime +7 -delete
+  $ find storage/logs/session_*.json -mtime +7 -delete
+
+  # Archive session logs
+  $ tar -czf logs_archive_$(date +%Y%m%d).tar.gz storage/logs/session_*.{log,json}
+
+  # Clear all session logs (keep unified logs)
+  $ rm storage/logs/session_*.log storage/logs/session_*.json
+
+🧪 TESTING
+────────────────────────────────────────────────────────────────────────────
+  # Test logging system
+  $ python test_logging.py
+
+🚀 WORKFLOW
+────────────────────────────────────────────────────────────────────────────
+  Terminal 1:                Terminal 2:                        Terminal 3:
+  $ python main.py           $ tail -f storage/logs/runtime.log $ tail -f storage/logs/sessions.log
+  [run voice agent]          [watch runtime events]             [watch conversations]
+
+📝 WHAT GETS LOGGED
+────────────────────────────────────────────────────────────────────────────
+  Runtime Log:
+    ✓ Component initialization (STT, TTS, LLM)
+    ✓ Conversation loop start/stop
+    ✓ User input processing
+    ✓ TTS synthesis events
+    ✓ Booking updates
+    ✓ Errors and warnings
+    ✓ Shutdown events
+
+  Sessions Log:
+    ✓ Session start/end markers
+    ✓ All user inputs
+    ✓ All assistant responses
+    ✓ Booking field updates
+    ✓ Confirmation status changes
+
+  Session-Specific Logs:
+    ✓ Complete conversation transcript
+    ✓ Booking data collection
+    ✓ Session summary with duration
+    ✓ Final booking data
+
+💡 PRO TIPS
+────────────────────────────────────────────────────────────────────────────
+  • All logs include session ID for correlation
+  • Runtime log is perfect for debugging initialization issues
+  • Sessions log is great for analyzing conversation patterns
+  • JSON logs enable automated analysis and reporting
+  • Use tmux/screen to monitor multiple logs simultaneously
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║  Need more details? See LOGGING_GUIDE.md                                ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
